@@ -1,0 +1,59 @@
+/* Archived styles for archive/PortfolioProjects.jsx.
+   Copy these back into sections.css if named project cards return. */
+
+.pf-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.2rem; margin-top: 3.5rem; }
+.pf-card {
+  position: relative; border-radius: 14px; overflow: hidden; cursor: pointer;
+  border: 1px solid rgba(24,39,31,.08);
+  box-shadow: 0 18px 40px -30px rgba(12,54,35,.5);
+}
+.pf-card .meadow { position: absolute; inset: 0; transition: transform 1.1s var(--ease); }
+.pf-card:hover .meadow { transform: scale(1.08); }
+.pf-card .pf-inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.6rem; }
+.pf-card .pf-scrim { position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, transparent 30%, rgba(8,38,25,.78) 100%);
+  opacity: .85; transition: opacity .6s var(--ease); }
+.pf-card:hover .pf-scrim { opacity: 1; }
+.pf-card .pf-meta { color: var(--hueso); transform: translateY(8px); transition: transform .6s var(--ease); }
+.pf-card:hover .pf-meta { transform: none; }
+.pf-card .pf-loc { font-family: var(--sans); font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: var(--rosa-200); }
+.pf-card h3 { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; margin: .35rem 0 0; color: var(--hueso); line-height: 1.15; }
+.pf-card .pf-desc { color: rgba(244,241,232,.0); font-size: .9rem; max-height: 0; overflow: hidden;
+  transition: max-height .6s var(--ease), color .6s var(--ease), margin .6s var(--ease); margin-top: 0; }
+.pf-card:hover .pf-desc { color: rgba(244,241,232,.85); max-height: 80px; margin-top: .7rem; }
+.pf-card.big { grid-column: span 4; aspect-ratio: 16 / 10; }
+.pf-card.tall { grid-column: span 2; aspect-ratio: 4 / 5; }
+.pf-card.wide { grid-column: span 3; aspect-ratio: 16 / 11; }
+.pf-card.sq { grid-column: span 2; aspect-ratio: 1 / 1; }
+
+.meadow {
+  background:
+    linear-gradient(180deg, #cfe0d8 0%, #e7e0cf 42%, #d8ccae 70%, #b9a983 100%);
+}
+.meadow::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(60% 40% at 70% 18%, rgba(255,247,224,.7), transparent 60%),
+    repeating-linear-gradient(86deg, rgba(120,150,110,.16) 0 3px, transparent 3px 9px),
+    repeating-linear-gradient(94deg, rgba(150,120,90,.12) 0 2px, transparent 2px 11px);
+}
+.meadow::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 7px, rgba(80,110,70,.14) 7px 8px),
+    linear-gradient(180deg, transparent, rgba(70,95,55,.4));
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%);
+  mask-image: linear-gradient(180deg, transparent, #000 30%);
+  animation: brisa-soft 8s ease-in-out infinite; transform-origin: bottom;
+}
+.meadow.m-dune { background: linear-gradient(180deg, #d3e2dc 0%, #e9e1cd 40%, #d9c79f 72%, #c7b083 100%); }
+.meadow.m-laguna { background: linear-gradient(180deg, #cfe1df 0%, #d7e3d4 38%, #a9c4a4 72%, #7ba07d 100%); }
+.meadow.m-monte { background: linear-gradient(180deg, #c9dccb 0%, #bcd0b4 40%, #8fae84 72%, #5e7e5a 100%); }
+.meadow.m-sunset { background: linear-gradient(180deg, #ecd9cf 0%, #e7c9b4 38%, #d49f86 70%, #9c6f5a 100%); }
+.meadow.m-estanque { background: linear-gradient(180deg, #cfe2e2 0%, #bcd6d4 40%, #8fb6ad 70%, #5d8c84 100%); }
+.meadow.m-deck { background: linear-gradient(180deg, #dde4d8 0%, #cfd0b4 40%, #b39e7e 70%, #8a6f55 100%); }
+
+@media (max-width: 900px) {
+  .pf-grid { grid-template-columns: repeat(2, 1fr); }
+  .pf-card.big, .pf-card.wide, .pf-card.tall, .pf-card.sq { grid-column: span 1; aspect-ratio: 4 / 3; }
+}
