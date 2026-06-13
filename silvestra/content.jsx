@@ -2,7 +2,7 @@ const SILVESTRA_CONTENT = {
   assets: {
     logoColor: 'assets/logo-color-trim.png',
     logoCream: 'assets/logo-cream-trim.png',
-    heroImage: './assets/hero-garden.jpg',
+    heroImage: './assets/hero.jpg',
   },
   contact: {
     email: 'hola@silvestra.uy',
