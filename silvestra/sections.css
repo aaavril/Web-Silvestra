@@ -12,12 +12,32 @@
 .hero-cta { display: flex; gap: .85rem; margin-top: 2rem; flex-wrap: wrap; }
 .hero-cta.center { justify-content: center; }
 
-/* — HERO: fondo verde sólido — */
+/* — HERO: imagen con overlay verde — */
 .hero-photo {
   color: var(--hueso);
   background-color: var(--verde-900);
+  isolation: isolate;
 }
-.hero-photo .hero-content { text-align: center; width: 100%; }
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 58%;
+  pointer-events: none;
+  user-select: none;
+}
+.hero-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(12, 54, 35, .72);
+}
+.hero-photo .hero-content { text-align: center; width: 100%; position: relative; z-index: 2; }
 .hero-photo .hero-h {
   font-weight: 300;
   line-height: 1.08;

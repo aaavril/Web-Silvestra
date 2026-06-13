@@ -83,6 +83,7 @@ function Header({ darkTop = true }) {
 function Hero() {
   return (
     <section className="hero hero-photo" id="top">
+      <img className="hero-bg-img" src={assets.heroImage} alt="" aria-hidden="true" decoding="async" fetchPriority="high" />
       <div className="wrap hero-content">
         <p className="eyebrow on-dark hero-eyebrow reveal in d1">{hero.eyebrow}</p>
         <h1 className="display hero-h reveal in d2"><em>habitar</em> tu naturaleza</h1>
