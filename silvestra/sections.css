@@ -294,7 +294,7 @@
     flex: 0 0 auto;
     break-inside: unset;
     margin-bottom: 0;
-    height: clamp(11rem, 55vw, 16rem);
+    height: clamp(7rem, 30vw, 9.5rem);
   }
 
   .plan-piece img {
