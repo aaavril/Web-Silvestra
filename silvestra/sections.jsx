@@ -1,7 +1,7 @@
 /* global React, Sprig */
 
 const { useEffect: useHeaderEffect, useState: useHeaderState } = React;
-const { assets, contact, nav, hero, filosofia, servicios, proceso, planos, portfolio, cta, footer } = window.SILVESTRA_CONTENT;
+const { assets, contact, nav, hero, filosofia, servicios, planos, portfolio, cta, footer } = window.SILVESTRA_CONTENT;
 
 function Arrow() {
   return (
@@ -85,7 +85,10 @@ function Hero() {
     <section className="hero hero-photo" id="top">
       <img className="hero-bg-img" src={assets.heroImage} alt="" aria-hidden="true" decoding="async" fetchPriority="high" />
       <div className="wrap hero-content">
-        <p className="eyebrow on-dark hero-eyebrow reveal in d1">{hero.eyebrow}</p>
+        <p className="eyebrow on-dark hero-eyebrow reveal in d1">
+          {hero.eyebrow}
+          {hero.locations && <><br />{hero.locations}</>}
+        </p>
         <h1 className="display hero-h reveal in d2"><em>habitar</em> tu naturaleza</h1>
         <p className="lede hero-sub reveal in d3">{hero.text}</p>
         <div className="hero-cta center reveal in d4">
@@ -102,6 +105,7 @@ function Hero() {
 
 function Filosofia() {
   const titleParts = filosofia.title.split(filosofia.accent);
+  const [firstLine, secondLine] = titleParts[1].split(/(?<=\.)\s+/);
 
   return (
     <section className="section filo tex-dots" id="filosofia">
@@ -109,7 +113,8 @@ function Filosofia() {
         <div className="filo-intro">
           <p className="eyebrow reveal">{filosofia.eyebrow}</p>
           <h2 className="display quote reveal d1">
-            {titleParts[0]}<span className="accent">{filosofia.accent}</span>{titleParts[1]}
+            {titleParts[0]}<span className="accent">{filosofia.accent}</span>{firstLine}
+            {secondLine && <><br />{secondLine}</>}
           </h2>
           <p className="body-lg reveal d2">{filosofia.text}</p>
         </div>
@@ -125,44 +130,29 @@ function Filosofia() {
           ))}
         </div>
       </div>
+
     </section>
   );
 }
 
 function Servicios() {
   return (
-    <>
-      <section className="section servicios" id="servicios">
-        <div className="wrap">
-          <SectionHeading eyebrow={servicios.eyebrow} title={servicios.title} />
-          <div className="serv-grid">
-            {servicios.items.map((item, index) => (
-              <article className={`serv-card reveal d${index + 1}`} key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-                <div className="s-mark"><Sprig size={120} /></div>
-              </article>
-            ))}
-          </div>
+    <section className="section proceso tex-dots" id="servicios">
+      <div className="wrap">
+        <SectionHeading eyebrow={servicios.eyebrow} title={servicios.title} />
+        <div className="steps">
+          {servicios.items.map((item, index) => (
+            <article className={`step reveal d${index + 1}`} key={item.number}>
+              <div className="conn" />
+              <div className="dot">{item.number}</div>
+              <h4>{item.title}</h4>
+              <p>{item.text}</p>
+            </article>
+          ))}
         </div>
-      </section>
+      </div>
 
-      <section className="section proceso tex-dots">
-        <div className="wrap">
-          <SectionHeading eyebrow={proceso.eyebrow} title={proceso.title} />
-          <div className="steps">
-            {proceso.steps.map((step, index) => (
-              <article className={`step reveal d${index + 1}`} key={step.number}>
-                <div className="conn" />
-                <div className="dot">{step.number}</div>
-                <h4>{step.title}</h4>
-                <p>{step.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
+    </section>
   );
 }
 
@@ -225,22 +215,104 @@ function PlanosProceso() {
 }
 
 function Portfolio() {
+  const rowsRef = React.useRef(null);
+  const [lightbox, setLightbox] = useHeaderState(null);
+
+  const closeLightbox = (e) => {
+    if (e.target === e.currentTarget) setLightbox(null);
+  };
+
+  useHeaderEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e) => { if (e.key === 'Escape') setLightbox(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox]);
+
   const renderGalleryImage = (image, imageIndex, rowIndex, copyIndex) => (
     <article
       className={`gallery-card ${image.size}`}
       key={`${rowIndex}-${copyIndex}-${imageIndex}`}
       aria-hidden={copyIndex > 0 ? 'true' : undefined}
     >
-      <img
-        className={image.crop}
-        src={image.src}
-        alt={copyIndex === 0 ? 'Jardín Silvestra' : ''}
-        loading="lazy"
-        decoding="async"
-        fetchPriority="low"
-      />
+      <button
+        className="gallery-open"
+        type="button"
+        aria-label="Ver imagen del portfolio completa"
+        tabIndex={copyIndex > 0 ? -1 : 0}
+        disabled={copyIndex > 0}
+        onClick={copyIndex > 0 ? undefined : () => setLightbox(image)}
+      >
+        <img
+          className={image.crop}
+          src={image.src}
+          alt={copyIndex === 0 ? 'Jardín Silvestra' : ''}
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
+        />
+      </button>
     </article>
   );
+
+  useHeaderEffect(() => {
+    if (!rowsRef.current || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const rows = Array.from(rowsRef.current.querySelectorAll('.gallery-row'));
+    const cleanups = rows.map((row) => {
+      const track = row.querySelector('.gallery-track');
+      const set = row.querySelector('.gallery-set');
+      if (!track || !set) return () => {};
+
+      const speedPxPerMs = parseFloat(getComputedStyle(track).getPropertyValue('--gallery-speed')) || 0.45;
+      const getWrapWidth = () => {
+        const gapPx = parseFloat(getComputedStyle(track).gap) || 0;
+        return set.getBoundingClientRect().width + gapPx;
+      };
+
+      let offset = 0;
+      let dir = 0;
+      let intensity = 0;
+      let lastTs = null;
+      let rafId = null;
+
+      const onMove = (e) => {
+        const rect = row.getBoundingClientRect();
+        const t = (e.clientX - rect.left) / rect.width;
+        dir = t > 0.5 ? -1 : 1;
+        intensity = Math.abs(t - 0.5) * 2;
+      };
+      const onLeave = () => { dir = 0; intensity = 0; lastTs = null; };
+
+      const tick = (ts) => {
+        if (lastTs == null) lastTs = ts;
+        const dt = ts - lastTs;
+        lastTs = ts;
+        if (dir !== 0) {
+          const wrapWidth = getWrapWidth();
+          offset += dir * intensity * speedPxPerMs * dt;
+          if (wrapWidth > 0) {
+            if (offset > 0) offset -= wrapWidth;
+            if (offset < -wrapWidth) offset += wrapWidth;
+          }
+          track.style.transform = `translateX(${offset}px)`;
+        }
+        rafId = requestAnimationFrame(tick);
+      };
+
+      row.addEventListener('mousemove', onMove);
+      row.addEventListener('mouseleave', onLeave);
+      rafId = requestAnimationFrame(tick);
+
+      return () => {
+        row.removeEventListener('mousemove', onMove);
+        row.removeEventListener('mouseleave', onLeave);
+        cancelAnimationFrame(rafId);
+      };
+    });
+
+    return () => cleanups.forEach((fn) => fn());
+  }, []);
 
   return (
     <section className="section portfolio" id="portfolio">
@@ -250,9 +322,9 @@ function Portfolio() {
           <p className="body-lg pf-lead reveal d2">{portfolio.text}</p>
         </div>
 
-        <div className="gallery-rows reveal d2">
+        <div className="gallery-rows reveal d2" ref={rowsRef}>
           {portfolio.rows.map((row, rowIndex) => (
-            <div className={`gallery-row move-${row.direction} speed-${row.speed}`} key={`${row.direction}-${rowIndex}`}>
+            <div className={`gallery-row speed-${row.speed}`} key={`row-${rowIndex}`}>
               <div className="gallery-track">
                 <div className="gallery-set">
                   {row.images.map((image, imageIndex) => renderGalleryImage(image, imageIndex, rowIndex, 0))}
@@ -265,6 +337,15 @@ function Portfolio() {
           ))}
         </div>
       </div>
+
+      {lightbox && (
+        <div className="portfolio-lightbox" onClick={closeLightbox}>
+          <div className="portfolio-lightbox-inner">
+            <img src={lightbox.src} alt="Jardín Silvestra" />
+          </div>
+          <button className="portfolio-lightbox-close" onClick={() => setLightbox(null)} aria-label="Cerrar">Cerrar</button>
+        </div>
+      )}
     </section>
   );
 }
