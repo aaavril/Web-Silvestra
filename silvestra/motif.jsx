@@ -1,6 +1,14 @@
-/* global React */
+// ============================================================
+// SILVESTRA — motivo botanico
+// ------------------------------------------------------------
+// Componente decorativo disponible pero no usado en las secciones
+// actuales, por lo que no entra en el bundle. Importarlo desde
+// sections.jsx lo reactiva.
+// ============================================================
 
-function Sprig({ color = 'var(--verde-400)', berry = 'var(--rosa-400)', size = 90, flip = false }) {
+import React from 'react';
+
+export function Sprig({ color = 'var(--verde-400)', berry = 'var(--rosa-400)', size = 90, flip = false }) {
   return (
     <svg
       viewBox="0 0 120 120"
@@ -21,4 +29,4 @@ function Sprig({ color = 'var(--verde-400)', berry = 'var(--rosa-400)', size = 9
   );
 }
 
-window.Sprig = Sprig;
+export default Sprig;

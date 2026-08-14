@@ -3,7 +3,9 @@
    Paleta derivada del logo: verde bosque + baya rosada
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+/* Las @font-face viven en fonts.css (autohospedadas, generadas por
+   scripts/fetch-fonts.mjs). El build concatena fonts.css + styles.css +
+   sections.css en un unico archivo, asi que no hace falta @import. */
 
 :root {
   /* — Verdes (del trazo del logo) — */
@@ -173,20 +175,25 @@ em, .italic { font-style: italic; }
 .ulink:hover::after { transform: scaleX(1); transform-origin: left; }
 
 /* ---------- Reveal al scroll ---------- */
-.reveal {
+/* El estado oculto se aplica SOLO bajo `.js`, que un script inline en el
+   <head> agrega al <html>. El HTML ahora viene prerenderizado, y si el
+   estado oculto fuera el default el contenido quedaria con opacity: 0
+   para cualquiera que no ejecute JS — incluidos los buscadores, que
+   tratan el contenido invisible como potencialmente oculto. */
+.js .reveal {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 1s var(--ease), transform 1s var(--ease);
 }
-.reveal.in { opacity: 1; transform: none; }
-.reveal.d1 { transition-delay: .08s; }
-.reveal.d2 { transition-delay: .16s; }
-.reveal.d3 { transition-delay: .24s; }
-.reveal.d4 { transition-delay: .32s; }
-.reveal.d5 { transition-delay: .40s; }
+.js .reveal.in { opacity: 1; transform: none; }
+.js .reveal.d1 { transition-delay: .08s; }
+.js .reveal.d2 { transition-delay: .16s; }
+.js .reveal.d3 { transition-delay: .24s; }
+.js .reveal.d4 { transition-delay: .32s; }
+.js .reveal.d5 { transition-delay: .40s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .js .reveal { opacity: 1 !important; transform: none !important; }
   * { scroll-behavior: auto; }
 }
 
@@ -220,7 +227,10 @@ em, .italic { font-style: italic; }
   padding-block: .7rem;
   box-shadow: 0 1px 0 rgba(24,39,31,.07);
 }
-.site-header .nav-logo { height: 72px; transition: height .5s var(--ease), filter .5s var(--ease); }
+/* width: auto es necesario porque el <img> lleva los atributos width y
+   height reales (evitan layout shift). Sin esto el navegador usa el ancho
+   del atributo y deforma el logo. */
+.site-header .nav-logo { height: 72px; width: auto; transition: height .5s var(--ease), filter .5s var(--ease); }
 .site-header.scrolled .nav-logo { height: 54px; }
 .nav-links { display: flex; gap: clamp(1.15rem, 2vw, 2.2rem); align-items: center; }
 .nav-links a {

@@ -1,0 +1,813 @@
+{
+  "images": {
+    "assets/logo-color-trim.png": {
+      "width": 576,
+      "height": 551,
+      "out": "assets/logo-color-trim.png"
+    },
+    "assets/logo-cream-trim.png": {
+      "width": 576,
+      "height": 551,
+      "out": "assets/logo-cream-trim.png"
+    },
+    "assets/silvestra-logo-cream.png": {
+      "width": 1192,
+      "height": 1027,
+      "out": "assets/silvestra-logo-cream.png"
+    },
+    "assets/silvestra-logo.png": {
+      "width": 1192,
+      "height": 1027,
+      "out": "assets/silvestra-logo.png"
+    },
+    "assets/images/image11.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image11-card.webp",
+      "full": {
+        "src": "assets/images/image11-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image1.webp": {
+      "width": 544,
+      "height": 700,
+      "out": "assets/images/image1-card.webp",
+      "full": {
+        "src": "assets/images/image1-full.webp",
+        "width": 1128,
+        "height": 1451
+      }
+    },
+    "assets/images/image10.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image10-card.webp",
+      "full": {
+        "src": "assets/images/image10-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image12.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image12-card.webp",
+      "full": {
+        "src": "assets/images/image12-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image13.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image13-card.webp",
+      "full": {
+        "src": "assets/images/image13-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image14.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image14-card.webp",
+      "full": {
+        "src": "assets/images/image14-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image15.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image15-card.webp",
+      "full": {
+        "src": "assets/images/image15-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image16.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image16-card.webp",
+      "full": {
+        "src": "assets/images/image16-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image17.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image17-card.webp",
+      "full": {
+        "src": "assets/images/image17-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image18.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image18-card.webp",
+      "full": {
+        "src": "assets/images/image18-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image19.webp": {
+      "width": 700,
+      "height": 525,
+      "out": "assets/images/image19-card.webp",
+      "full": {
+        "src": "assets/images/image19-full.webp",
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    "assets/images/image2.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image2-card.webp",
+      "full": {
+        "src": "assets/images/image2-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image20.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image20-card.webp",
+      "full": {
+        "src": "assets/images/image20-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image21.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image21-card.webp",
+      "full": {
+        "src": "assets/images/image21-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image22.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image22-card.webp",
+      "full": {
+        "src": "assets/images/image22-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image23.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image23-card.webp",
+      "full": {
+        "src": "assets/images/image23-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image24.webp": {
+      "width": 700,
+      "height": 525,
+      "out": "assets/images/image24-card.webp",
+      "full": {
+        "src": "assets/images/image24-full.webp",
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    "assets/images/image25.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image25-card.webp",
+      "full": {
+        "src": "assets/images/image25-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image26.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image26-card.webp",
+      "full": {
+        "src": "assets/images/image26-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image27.webp": {
+      "width": 476,
+      "height": 700,
+      "out": "assets/images/image27-card.webp",
+      "full": {
+        "src": "assets/images/image27-full.webp",
+        "width": 1088,
+        "height": 1600
+      }
+    },
+    "assets/images/image28.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image28-card.webp",
+      "full": {
+        "src": "assets/images/image28-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image29.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image29-card.webp",
+      "full": {
+        "src": "assets/images/image29-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image30.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image30-card.webp",
+      "full": {
+        "src": "assets/images/image30-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image3.webp": {
+      "width": 700,
+      "height": 525,
+      "out": "assets/images/image3-card.webp",
+      "full": {
+        "src": "assets/images/image3-full.webp",
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    "assets/images/image31.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image31-card.webp",
+      "full": {
+        "src": "assets/images/image31-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image32.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image32-card.webp",
+      "full": {
+        "src": "assets/images/image32-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image33.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image33-card.webp",
+      "full": {
+        "src": "assets/images/image33-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image34.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image34-card.webp",
+      "full": {
+        "src": "assets/images/image34-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image36.webp": {
+      "width": 500,
+      "height": 700,
+      "out": "assets/images/image36-card.webp",
+      "full": {
+        "src": "assets/images/image36-full.webp",
+        "width": 1142,
+        "height": 1600
+      }
+    },
+    "assets/images/image35.webp": {
+      "width": 507,
+      "height": 700,
+      "out": "assets/images/image35-card.webp",
+      "full": {
+        "src": "assets/images/image35-full.webp",
+        "width": 1159,
+        "height": 1600
+      }
+    },
+    "assets/images/image37.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image37-card.webp",
+      "full": {
+        "src": "assets/images/image37-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/hero.jpg": {
+      "width": 828,
+      "height": 1104,
+      "out": "assets/hero-p828.webp",
+      "hero": {
+        "portrait": {
+          "webp": [
+            {
+              "src": "assets/hero-p480.webp",
+              "w": 480,
+              "h": 640
+            },
+            {
+              "src": "assets/hero-p828.webp",
+              "w": 828,
+              "h": 1104
+            }
+          ],
+          "avif": [
+            {
+              "src": "assets/hero-p480.avif",
+              "w": 480,
+              "h": 640
+            },
+            {
+              "src": "assets/hero-p828.avif",
+              "w": 828,
+              "h": 1104
+            }
+          ]
+        },
+        "landscape": {
+          "webp": [
+            {
+              "src": "assets/hero-l1280.webp",
+              "w": 1280,
+              "h": 720
+            },
+            {
+              "src": "assets/hero-l1920.webp",
+              "w": 1920,
+              "h": 1080
+            }
+          ],
+          "avif": [
+            {
+              "src": "assets/hero-l1280.avif",
+              "w": 1280,
+              "h": 720
+            },
+            {
+              "src": "assets/hero-l1920.avif",
+              "w": 1920,
+              "h": 1080
+            }
+          ]
+        }
+      }
+    },
+    "assets/images/image38.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image38-card.webp",
+      "full": {
+        "src": "assets/images/image38-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image39.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image39-card.webp",
+      "full": {
+        "src": "assets/images/image39-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image4.webp": {
+      "width": 700,
+      "height": 525,
+      "out": "assets/images/image4-card.webp",
+      "full": {
+        "src": "assets/images/image4-full.webp",
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    "assets/images/image40.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image40-card.webp",
+      "full": {
+        "src": "assets/images/image40-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image41.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image41-card.webp",
+      "full": {
+        "src": "assets/images/image41-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image43.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image43-card.webp",
+      "full": {
+        "src": "assets/images/image43-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image42.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image42-card.webp",
+      "full": {
+        "src": "assets/images/image42-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image44.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image44-card.webp",
+      "full": {
+        "src": "assets/images/image44-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image45.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image45-card.webp",
+      "full": {
+        "src": "assets/images/image45-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image48.webp": {
+      "width": 470,
+      "height": 700,
+      "out": "assets/images/image48-card.webp",
+      "full": {
+        "src": "assets/images/image48-full.webp",
+        "width": 1075,
+        "height": 1600
+      }
+    },
+    "assets/images/image46.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image46-card.webp",
+      "full": {
+        "src": "assets/images/image46-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image47.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image47-card.webp",
+      "full": {
+        "src": "assets/images/image47-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image49.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image49-card.webp",
+      "full": {
+        "src": "assets/images/image49-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image5.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image5-card.webp",
+      "full": {
+        "src": "assets/images/image5-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image51.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image51-card.webp",
+      "full": {
+        "src": "assets/images/image51-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image50.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image50-card.webp",
+      "full": {
+        "src": "assets/images/image50-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image6.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image6-card.webp",
+      "full": {
+        "src": "assets/images/image6-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image52.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image52-card.webp",
+      "full": {
+        "src": "assets/images/image52-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image8.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image8-card.webp",
+      "full": {
+        "src": "assets/images/image8-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/images/image7.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image7-card.webp",
+      "full": {
+        "src": "assets/images/image7-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/planos/alzado-cantero-maritimo.webp": {
+      "width": 700,
+      "height": 323,
+      "out": "assets/planos/alzado-cantero-maritimo-card.webp",
+      "full": {
+        "src": "assets/planos/alzado-cantero-maritimo-full.webp",
+        "width": 1600,
+        "height": 738
+      }
+    },
+    "assets/planos/axonometria.webp": {
+      "width": 700,
+      "height": 445,
+      "out": "assets/planos/axonometria-card.webp",
+      "full": {
+        "src": "assets/planos/axonometria-full.webp",
+        "width": 1600,
+        "height": 1018
+      }
+    },
+    "assets/planos/cantero-tecnica-mano-alzada.webp": {
+      "width": 700,
+      "height": 476,
+      "out": "assets/planos/cantero-tecnica-mano-alzada-card.webp",
+      "full": {
+        "src": "assets/planos/cantero-tecnica-mano-alzada-full.webp",
+        "width": 1600,
+        "height": 1088
+      }
+    },
+    "assets/images/image9.webp": {
+      "width": 525,
+      "height": 700,
+      "out": "assets/images/image9-card.webp",
+      "full": {
+        "src": "assets/images/image9-full.webp",
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    "assets/planos/corte-tecnica-mano-alzada.webp": {
+      "width": 700,
+      "height": 392,
+      "out": "assets/planos/corte-tecnica-mano-alzada-card.webp",
+      "full": {
+        "src": "assets/planos/corte-tecnica-mano-alzada-full.webp",
+        "width": 1600,
+        "height": 895
+      }
+    },
+    "assets/planos/corte-area-para-teens.webp": {
+      "width": 700,
+      "height": 410,
+      "out": "assets/planos/corte-area-para-teens-card.webp",
+      "full": {
+        "src": "assets/planos/corte-area-para-teens-full.webp",
+        "width": 1600,
+        "height": 937
+      }
+    },
+    "assets/planos/corte-lago-y-puente.webp": {
+      "width": 700,
+      "height": 479,
+      "out": "assets/planos/corte-lago-y-puente-card.webp",
+      "full": {
+        "src": "assets/planos/corte-lago-y-puente-full.webp",
+        "width": 1600,
+        "height": 1094
+      }
+    },
+    "assets/planos/chacra-vista-area-espejos-de-agua.webp": {
+      "width": 700,
+      "height": 469,
+      "out": "assets/planos/chacra-vista-area-espejos-de-agua-card.webp",
+      "full": {
+        "src": "assets/planos/chacra-vista-area-espejos-de-agua-full.webp",
+        "width": 1600,
+        "height": 1073
+      }
+    },
+    "assets/planos/diseno-de-pergola.webp": {
+      "width": 661,
+      "height": 700,
+      "out": "assets/planos/diseno-de-pergola-card.webp",
+      "full": {
+        "src": "assets/planos/diseno-de-pergola-full.webp",
+        "width": 1510,
+        "height": 1600
+      }
+    },
+    "assets/planos/corte-y-vista-de-balcon.webp": {
+      "width": 700,
+      "height": 664,
+      "out": "assets/planos/corte-y-vista-de-balcon-card.webp",
+      "full": {
+        "src": "assets/planos/corte-y-vista-de-balcon-full.webp",
+        "width": 1600,
+        "height": 1518
+      }
+    },
+    "assets/planos/grafico-aves-por-estaciones-proyecto-en-laguna.webp": {
+      "width": 672,
+      "height": 700,
+      "out": "assets/planos/grafico-aves-por-estaciones-proyecto-en-laguna-card.webp",
+      "full": {
+        "src": "assets/planos/grafico-aves-por-estaciones-proyecto-en-laguna-full.webp",
+        "width": 1535,
+        "height": 1600
+      }
+    },
+    "assets/planos/listado-especies-para-chacra.webp": {
+      "width": 700,
+      "height": 462,
+      "out": "assets/planos/listado-especies-para-chacra-card.webp",
+      "full": {
+        "src": "assets/planos/listado-especies-para-chacra-full.webp",
+        "width": 1600,
+        "height": 1055
+      }
+    },
+    "assets/planos/perspectiva-cafe-museo.webp": {
+      "width": 587,
+      "height": 455,
+      "out": "assets/planos/perspectiva-cafe-museo-card.webp",
+      "full": {
+        "src": "assets/planos/perspectiva-cafe-museo-full.webp",
+        "width": 587,
+        "height": 455
+      }
+    },
+    "assets/planos/perspectiva-patio-museo.webp": {
+      "width": 700,
+      "height": 452,
+      "out": "assets/planos/perspectiva-patio-museo-card.webp",
+      "full": {
+        "src": "assets/planos/perspectiva-patio-museo-full.webp",
+        "width": 1099,
+        "height": 710
+      }
+    },
+    "assets/planos/monte-nativo-y-mirador.webp": {
+      "width": 700,
+      "height": 579,
+      "out": "assets/planos/monte-nativo-y-mirador-card.webp",
+      "full": {
+        "src": "assets/planos/monte-nativo-y-mirador-full.webp",
+        "width": 1600,
+        "height": 1324
+      }
+    },
+    "assets/planos/plano-de-plantacion.webp": {
+      "width": 700,
+      "height": 504,
+      "out": "assets/planos/plano-de-plantacion-card.webp",
+      "full": {
+        "src": "assets/planos/plano-de-plantacion-full.webp",
+        "width": 1600,
+        "height": 1151
+      }
+    },
+    "assets/planos/plano-laguna.webp": {
+      "width": 688,
+      "height": 700,
+      "out": "assets/planos/plano-laguna-card.webp",
+      "full": {
+        "src": "assets/planos/plano-laguna-full.webp",
+        "width": 1572,
+        "height": 1600
+      }
+    },
+    "assets/planos/plano-reserva.webp": {
+      "width": 501,
+      "height": 700,
+      "out": "assets/planos/plano-reserva-card.webp",
+      "full": {
+        "src": "assets/planos/plano-reserva-full.webp",
+        "width": 1146,
+        "height": 1600
+      }
+    },
+    "assets/planos/plano-plantacion.webp": {
+      "width": 700,
+      "height": 425,
+      "out": "assets/planos/plano-plantacion-card.webp",
+      "full": {
+        "src": "assets/planos/plano-plantacion-full.webp",
+        "width": 1600,
+        "height": 972
+      }
+    },
+    "assets/planos/plano-villa.webp": {
+      "width": 479,
+      "height": 700,
+      "out": "assets/planos/plano-villa-card.webp",
+      "full": {
+        "src": "assets/planos/plano-villa-full.webp",
+        "width": 1095,
+        "height": 1600
+      }
+    },
+    "assets/planos/pradera-intervenida.webp": {
+      "width": 700,
+      "height": 441,
+      "out": "assets/planos/pradera-intervenida-card.webp",
+      "full": {
+        "src": "assets/planos/pradera-intervenida-full.webp",
+        "width": 1600,
+        "height": 1009
+      }
+    },
+    "assets/planos/zonificacion-para-chacra.webp": {
+      "width": 700,
+      "height": 434,
+      "out": "assets/planos/zonificacion-para-chacra-card.webp",
+      "full": {
+        "src": "assets/planos/zonificacion-para-chacra-full.webp",
+        "width": 1600,
+        "height": 991
+      }
+    }
+  }
+}

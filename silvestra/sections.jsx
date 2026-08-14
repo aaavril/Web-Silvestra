@@ -1,7 +1,12 @@
-/* global React, Sprig */
+// ============================================================
+// SILVESTRA — Secciones
+// ============================================================
 
-const { useEffect: useHeaderEffect, useState: useHeaderState } = React;
-const { assets, contact, nav, hero, filosofia, servicios, planos, portfolio, cta, footer } = window.SILVESTRA_CONTENT;
+import React, { useEffect, useRef, useState } from 'react';
+import { content } from './content.jsx';
+import { img, imgFull, heroPicture } from './images.mjs';
+
+const { assets, contact, nav, hero, filosofia, servicios, planos, portfolio, cta, footer } = content;
 
 function Arrow() {
   return (
@@ -28,18 +33,18 @@ function SectionHeading({ eyebrow, title, className = '' }) {
   );
 }
 
-function Header({ darkTop = true }) {
-  const [scrolled, setScrolled] = useHeaderState(false);
-  const [open, setOpen] = useHeaderState(false);
+export function Header({ darkTop = true }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  useHeaderEffect(() => {
+  useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useHeaderEffect(() => {
+  useEffect(() => {
     if (!open) return;
     const onKey = (event) => {
       if (event.key === 'Escape') setOpen(false);
@@ -49,12 +54,14 @@ function Header({ darkTop = true }) {
   }, [open]);
 
   const lightTop = !darkTop && !scrolled;
+  const logoCream = img(assets.logoCream);
+  const logoColor = img(assets.logoColor);
 
   return (
     <header className={`site-header ${scrolled ? 'scrolled' : ''} ${lightTop ? 'light-top' : ''} ${open ? 'menu-open' : ''}`}>
-      <a href="#top" aria-label="Silvestra Paisajismo">
-        <img className="nav-logo on-dark-logo" src={assets.logoCream} alt="Silvestra Paisajismo" />
-        <img className="nav-logo on-light" src={assets.logoColor} alt="Silvestra Paisajismo" />
+      <a href="#top" aria-label="Silvestra Paisajismo — inicio">
+        <img className="nav-logo on-dark-logo" {...logoCream} alt="Silvestra Paisajismo" />
+        <img className="nav-logo on-light" {...logoColor} alt="Silvestra Paisajismo" />
       </a>
 
       <nav className="nav-links" aria-label="Navegación principal">
@@ -80,16 +87,44 @@ function Header({ darkTop = true }) {
   );
 }
 
-function Hero() {
+export function Hero() {
+  const picture = heroPicture(assets.heroImage);
+  const fallback = img(assets.heroImage);
+  const [accentStart, ...accentRest] = hero.tagline.split(hero.taglineAccent);
+
+  // El H1 lleva el lema como linea principal (peso visual) y la propuesta
+  // de valor con keyword y ubicacion como segunda linea, dentro del mismo H1.
   return (
     <section className="hero hero-photo" id="top">
-      <img className="hero-bg-img" src={assets.heroImage} alt="" aria-hidden="true" decoding="async" fetchPriority="high" />
+      {picture ? (
+        <picture className="hero-bg-picture">
+          {/* Desktop recibe el recorte horizontal; mobile, el vertical. */}
+          <source media={picture.desktopMedia} type="image/avif" srcSet={picture.landscapeAvif} sizes={picture.sizes} />
+          <source media={picture.desktopMedia} type="image/webp" srcSet={picture.landscapeWebp} sizes={picture.sizes} />
+          <source type="image/avif" srcSet={picture.portraitAvif} sizes={picture.sizes} />
+          <source type="image/webp" srcSet={picture.portraitWebp} sizes={picture.sizes} />
+          <img
+            className="hero-bg-img"
+            src={picture.src}
+            alt={hero.imageAlt}
+            decoding="async"
+            fetchpriority="high"
+          />
+        </picture>
+      ) : (
+        <img className="hero-bg-img" {...fallback} alt={hero.imageAlt} decoding="async" fetchpriority="high" />
+      )}
+
       <div className="wrap hero-content">
-        <p className="eyebrow on-dark hero-eyebrow reveal in d1">
-          {hero.eyebrow}
-          {hero.locations && <><br />{hero.locations}</>}
-        </p>
-        <h1 className="display hero-h reveal in d2"><em>habitar</em> tu naturaleza</h1>
+        <p className="eyebrow on-dark hero-eyebrow reveal in d1">{hero.eyebrow}</p>
+        <h1 className="display hero-h reveal in d2">
+          <span className="hero-h-line">
+            {accentStart}
+            <em>{hero.taglineAccent}</em>
+            {accentRest.join(hero.taglineAccent)}
+          </span>
+          <span className="hero-h-kw">{hero.headline}</span>
+        </h1>
         <p className="lede hero-sub reveal in d3">{hero.text}</p>
         <div className="hero-cta center reveal in d4">
           <a href="#portfolio" className="btn solid-light">Ver el portfolio <Arrow /></a>
@@ -103,7 +138,7 @@ function Hero() {
   );
 }
 
-function Filosofia() {
+export function Filosofia() {
   const titleParts = filosofia.title.split(filosofia.accent);
   const [firstLine, secondLine] = titleParts[1].split(/(?<=\.)\s+/);
 
@@ -135,7 +170,7 @@ function Filosofia() {
   );
 }
 
-function Servicios() {
+export function Servicios() {
   return (
     <section className="section proceso tex-dots" id="servicios">
       <div className="wrap">
@@ -145,7 +180,7 @@ function Servicios() {
             <article className={`step reveal d${index + 1}`} key={item.number}>
               <div className="conn" />
               <div className="dot">{item.number}</div>
-              <h4>{item.title}</h4>
+              <h3>{item.title}</h3>
               <p>{item.text}</p>
             </article>
           ))}
@@ -156,14 +191,14 @@ function Servicios() {
   );
 }
 
-function PlanosProceso() {
-  const [lightbox, setLightbox] = useHeaderState(null);
+export function PlanosProceso() {
+  const [lightbox, setLightbox] = useState(null);
 
   const closeLightbox = (e) => {
     if (e.target === e.currentTarget) setLightbox(null);
   };
 
-  useHeaderEffect(() => {
+  useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') setLightbox(null); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -186,11 +221,11 @@ function PlanosProceso() {
               style={{ cursor: 'zoom-in' }}
             >
               <img
-                src={image.src}
-                alt={`${image.label} - proceso creativo Silvestra`}
+                {...img(image.src)}
+                alt={`${image.label} — proceso creativo de Silvestra Paisajismo`}
                 loading="lazy"
                 decoding="async"
-                fetchPriority="low"
+                fetchpriority="low"
               />
               <div className="plan-piece-caption">
                 <span>{String(index + 1).padStart(2, '0')}</span>
@@ -204,7 +239,7 @@ function PlanosProceso() {
       {lightbox && (
         <div className="plan-lightbox" onClick={closeLightbox}>
           <div className="plan-lightbox-inner">
-            <img src={lightbox.src} alt={lightbox.label} />
+            <img {...imgFull(lightbox.src)} alt={lightbox.label} />
             <p className="plan-lightbox-label">{lightbox.label}</p>
           </div>
           <button className="plan-lightbox-close" onClick={() => setLightbox(null)} aria-label="Cerrar">✕</button>
@@ -214,15 +249,20 @@ function PlanosProceso() {
   );
 }
 
-function Portfolio() {
-  const rowsRef = React.useRef(null);
-  const [lightbox, setLightbox] = useHeaderState(null);
+// Texto alternativo para las fotos del portfolio. Cada entrada de
+// content.jsx puede traer su propio `alt`; mientras no lo tenga se usa
+// este generico. Ver la nota en content.jsx.
+const portfolioAlt = (image) => image.alt || 'Jardín naturalista diseñado por Silvestra Paisajismo';
+
+export function Portfolio() {
+  const rowsRef = useRef(null);
+  const [lightbox, setLightbox] = useState(null);
 
   const closeLightbox = (e) => {
     if (e.target === e.currentTarget) setLightbox(null);
   };
 
-  useHeaderEffect(() => {
+  useEffect(() => {
     if (!lightbox) return;
     const onKey = (e) => { if (e.key === 'Escape') setLightbox(null); };
     window.addEventListener('keydown', onKey);
@@ -238,24 +278,24 @@ function Portfolio() {
       <button
         className="gallery-open"
         type="button"
-        aria-label="Ver imagen del portfolio completa"
+        aria-label={`Ampliar imagen: ${portfolioAlt(image)}`}
         tabIndex={copyIndex > 0 ? -1 : 0}
         disabled={copyIndex > 0}
         onClick={copyIndex > 0 ? undefined : () => setLightbox(image)}
       >
         <img
           className={image.crop}
-          src={image.src}
-          alt={copyIndex === 0 ? 'Jardín Silvestra' : ''}
+          {...img(image.src)}
+          alt={copyIndex === 0 ? portfolioAlt(image) : ''}
           loading="lazy"
           decoding="async"
-          fetchPriority="low"
+          fetchpriority="low"
         />
       </button>
     </article>
   );
 
-  useHeaderEffect(() => {
+  useEffect(() => {
     if (!rowsRef.current || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     const rows = Array.from(rowsRef.current.querySelectorAll('.gallery-row'));
@@ -341,7 +381,7 @@ function Portfolio() {
       {lightbox && (
         <div className="portfolio-lightbox" onClick={closeLightbox}>
           <div className="portfolio-lightbox-inner">
-            <img src={lightbox.src} alt="Jardín Silvestra" />
+            <img {...imgFull(lightbox.src)} alt={portfolioAlt(lightbox)} />
           </div>
           <button className="portfolio-lightbox-close" onClick={() => setLightbox(null)} aria-label="Cerrar">Cerrar</button>
         </div>
@@ -350,7 +390,7 @@ function Portfolio() {
   );
 }
 
-function Contacto() {
+export function Contacto() {
   return (
     <section className="section cta-final" id="contacto">
       <div className="wrap cta-inner reveal">
@@ -373,12 +413,14 @@ function FooterLink({ href, children, external = false }) {
   );
 }
 
-function Footer() {
+export function Footer() {
+  const logoCream = img(assets.logoCream);
+
   return (
     <footer className="site-footer">
       <div className="footer-grid">
         <div className="footer-brand">
-          <img className="footer-logo" src={assets.logoCream} alt="Silvestra Paisajismo" />
+          <img className="footer-logo" {...logoCream} alt="Silvestra Paisajismo" />
           <p className="footer-tagline">{footer.tagline}</p>
         </div>
 
@@ -395,25 +437,24 @@ function Footer() {
           <p className="eyebrow on-dark footer-heading">Contacto</p>
           <ul className="footer-list">
             <li><FooterLink href={contact.phoneUrl}>{contact.phoneLabel}</FooterLink></li>
+            <li><FooterLink href={`mailto:${contact.email}`}>{contact.email}</FooterLink></li>
             <li><FooterLink href={contact.instagram} external>Instagram: {contact.instagramLabel}</FooterLink></li>
           </ul>
         </div>
       </div>
 
       <div className="footer-foot">
-        <span>© 2025 Silvestra Paisajismo</span>
+        <span>© {footer.year} Silvestra Paisajismo</span>
         <span>{footer.areas}</span>
       </div>
     </footer>
   );
 }
 
-function WhatsApp() {
+export function WhatsApp() {
   return (
     <a className="wa-float" href={contact.whatsapp} target="_blank" rel="noreferrer" aria-label="Contactar por WhatsApp">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.35c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 012.41 5.82c0 4.54-3.69 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.48-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42l-.48-.01c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z" /></svg>
     </a>
   );
 }
-
-Object.assign(window, { Header, Hero, Filosofia, Servicios, PlanosProceso, Portfolio, Contacto, Footer, WhatsApp });

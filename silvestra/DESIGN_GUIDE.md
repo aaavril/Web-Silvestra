@@ -2,6 +2,32 @@
 
 Guia de diseno para mantener la web coherente, limpia y extensible.
 
+## Como se construye el sitio
+
+El sitio dejo de servirse como archivos sueltos: `silvestra/` es codigo
+fuente y lo que se publica es `dist/`, generado por `npm run build`.
+
+```
+npm install          una sola vez
+npm run build        build completo (optimiza imagenes, ~15s)
+npm run build:fast   reusa las imagenes ya optimizadas (~1s)
+npm run serve        sirve dist/ en http://localhost:4173
+node scripts/verify.mjs   verifica el build en Chrome headless
+```
+
+El build prerenderiza el HTML con `react-dom/server`. Antes el navegador
+transpilaba JSX con `@babel/standalone` y el servidor entregaba un
+`<div id="root">` vacio, asi que ningun buscador ni preview de WhatsApp
+veia contenido.
+
+Dos consecuencias a tener presentes al editar:
+
+- **Nunca editar `dist/`**: se regenera entero en cada build.
+- **`.reveal` se oculta solo bajo `.js`**, una clase que agrega un script
+  inline en el `<head>`. Si se vuelve a `.reveal { opacity: 0 }` sin ese
+  prefijo, todo el contenido prerenderizado queda invisible para quien no
+  ejecute JavaScript, incluidos los buscadores.
+
 ## Direccion visual
 
 Silvestra debe sentirse naturalista, sobria y cuidada. La estetica busca mostrar el jardin como protagonista: interfaz discreta, letras contenidas, mucho aire y detalles vegetales sutiles.
@@ -51,10 +77,16 @@ Header:
 - Header scrolled usa fondo claro translúcido.
 
 Hero:
-- Fondo fotografico desde `assets/image1.jpg`.
+- Fondo fotografico desde `assets/hero.jpg`.
 - Overlay suave para legibilidad.
 - Un solo CTA: `Ver el portfolio`.
 - No usar iconos decorativos grandes sobre la imagen.
+- El H1 tiene dos lineas: `.hero-h-line` con el lema (peso visual) y
+  `.hero-h-kw` con la propuesta de valor y la ubicacion. La segunda linea
+  existe por SEO: un H1 con solo el lema no tenia ninguna keyword.
+- El build recorta el hero a 16:9 para desktop y deja la version vertical
+  para mobile. Si se cambia la foto, revisar `HERO.focalY` en
+  `scripts/optimize-images.mjs` para que el recorte siga bien encuadrado.
 
 Filosofia:
 - En desktop entra completa en un frame.
@@ -76,9 +108,13 @@ Planos y proceso creativo:
 Portfolio:
 - Galeria generica de imagenes.
 - No incluir nombres de proyecto ni descripciones por item.
-- La galeria visible se organiza en 3 filas animadas con distintas direcciones.
+- La galeria visible se organiza en 3 filas animadas.
 - Para sumar fotos, editar `portfolio.rows` en `content.jsx`.
-- Cada fila acepta `direction: "left" | "right"` y `speed: "slow" | "medium" | "fast"`.
+- Cada fila acepta `speed: "slow" | "medium" | "fast"`. La direccion la
+  define la posicion del mouse sobre la fila, no un campo de datos.
+- Cada imagen acepta un campo `alt` con la descripcion de la foto. Sin `alt`
+  se usa un texto generico. Completarlo es lo que hace que la fotografia
+  aparezca en Google Imagenes; no cambia nada de lo que ve el visitante.
 - La version anterior con proyectos nombrados esta archivada en:
   - `archive/PortfolioProjects.jsx`
   - `archive/PortfolioProjects.css`

@@ -1,12 +1,15 @@
-/* global React, ReactDOM, Header, Hero, Filosofia, Servicios, PlanosProceso, Portfolio, Contacto, Footer, WhatsApp */
 // ============================================================
 // SILVESTRA — App
 // ============================================================
-const { useEffect: useEffectA } = React;
 
-// Observa los .reveal y los muestra al entrar en viewport
+import React, { useEffect } from 'react';
+import { Header, Hero, Filosofia, Servicios, PlanosProceso, Portfolio, Contacto, Footer, WhatsApp } from './sections.jsx';
+
+// Observa los .reveal y los muestra al entrar en viewport.
+// El estado oculto lo aplica CSS solo bajo `.js` (ver styles.css), asi que
+// si este efecto nunca corre el contenido queda visible en vez de invisible.
 function useScrollReveal() {
-  useEffectA(() => {
+  useEffect(() => {
     const els = Array.from(document.querySelectorAll('.reveal:not(.in)'));
     if (!els.length) return;
     const io = new IntersectionObserver((entries) => {
@@ -19,7 +22,7 @@ function useScrollReveal() {
   }, []);
 }
 
-function App() {
+export function App() {
   useScrollReveal();
 
   return (
@@ -39,4 +42,4 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+export default App;

@@ -38,10 +38,30 @@
   background: rgba(12, 54, 35, .72);
 }
 .hero-photo .hero-content { text-align: center; width: 100%; position: relative; z-index: 2; }
+/* El H1 tiene dos lineas: el lema como protagonista visual y la propuesta
+   de valor con keyword debajo. El max-width de 13ch aplica solo al lema,
+   para no partir la segunda linea en pedazos. */
 .hero-photo .hero-h {
   font-weight: 300;
   line-height: 1.08;
   margin-inline: auto;
+  max-width: none;
+}
+.hero-h-line {
+  display: block;
+  max-width: 13ch;
+  margin-inline: auto;
+}
+.hero-h-kw {
+  display: block;
+  margin: 1.15rem auto 0;
+  max-width: 32ch;
+  font-family: var(--sans);
+  font-size: clamp(.95rem, 1.5vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.45;
+  letter-spacing: .01em;
+  color: rgba(244,241,232,.94);
 }
 .hero-photo .hero-h em {
   font-family: var(--hero-font);
@@ -49,6 +69,9 @@
   font-weight: 300;
   font-size: 1.32em;
 }
+
+/* <picture> no debe interferir con el posicionamiento absoluto del <img> */
+.hero-bg-picture { display: contents; }
 .hero-photo .hero-sub {
   margin-inline: auto;
   color: rgba(244,241,232,.9);
@@ -180,7 +203,7 @@
 .step:hover .dot { background: var(--rosa-500); border-color: var(--rosa-500); transform: scale(1.08); }
 .step .conn { position: absolute; top: 24px; left: 48px; right: -1.5rem; height: 1px; background: linear-gradient(90deg, var(--verde-600), rgba(92,174,135,.2)); z-index: 1; }
 .step:last-child .conn { display: none; }
-.step h4 { font-family: var(--serif); font-weight: 500; font-size: 1rem; margin: 0 0 .4rem; }
+.step h3 { font-family: var(--serif); font-weight: 500; font-size: 1rem; margin: 0 0 .4rem; }
 .step p { color: rgba(227,240,232,.7); font-size: .86rem; margin: 0; }
 @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; gap: 2rem; } .step .conn { display: none; } }
 @media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }
@@ -587,7 +610,10 @@
 .footer-foot { max-width: var(--max); margin: 3rem auto 0; padding-top: 1.6rem; border-top: 1px solid rgba(255,255,255,.12);
   display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: .76rem; letter-spacing: .04em; }
 .footer-foot a { color: rgba(227,240,232,.75); text-decoration: none; }
-.footer-logo { height: 72px; }
+/* width: auto es necesario porque el <img> lleva los atributos width y
+   height reales (evitan layout shift). Sin esto el navegador usa el ancho
+   del atributo y deforma el logo. */
+.footer-logo { height: 72px; width: auto; }
 
 /* whatsapp float */
 .wa-float { position: fixed; bottom: 1.6rem; right: 1.6rem; z-index: 50;
@@ -607,7 +633,16 @@
 
   .hero-photo .hero-h {
     font-size: clamp(1.8rem, 10vw, 3.1rem);
+  }
+
+  .hero-h-line {
     max-width: 10ch;
+  }
+
+  .hero-h-kw {
+    margin-top: .9rem;
+    max-width: 26ch;
+    font-size: clamp(.9rem, 4vw, 1.05rem);
   }
 
   .hero-sub {
