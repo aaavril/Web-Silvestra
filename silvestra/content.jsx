@@ -37,6 +37,12 @@ export const content = {
     eyebrow: 'Nuestra filosofía',
     title: 'Lo silvestre también se diseña. Jardines libres, vivos y en equilibrio.',
     accent: 'silvestre',
+    // Frase definicional: sujeto, categoria, lugar y especialidad en una sola
+    // oracion. Es lo que un buscador con IA puede levantar tal cual para
+    // responder "que es Silvestra". El texto de abajo es voz de marca y no
+    // afirma nada citable; los dos cumplen funciones distintas.
+    definition:
+      'Silvestra Paisajismo es un estudio de diseño de paisaje con base en Maldonado, Uruguay, especializado en jardines naturalistas con especies nativas y manejo sin agroquímicos para la costa este.',
     text: 'Silvestra surge del deseo de co-crear con la naturaleza. Concebimos jardines que respetan sus ritmos y potencian su esencia, espacios donde la vegetación, la luz y el tiempo dialogan en armonía. Lugares que inspiran libertad, serenidad y una conexión profunda con el mundo vivo que nos contiene.',
     pillars: [
       {
@@ -459,7 +465,13 @@ export const content = {
   footer: {
     tagline: 'habitar tu naturaleza',
     areas: 'Punta del Este · La Barra · Manantiales · José Ignacio',
-    year: new Date().getFullYear(),
+    // Fecha del build, inyectada por esbuild (ver buildClient en
+    // scripts/build.mjs). Antes esto era new Date(): se evaluaba una vez en el
+    // build y otra en el navegador, o sea dos valores distintos si alguien
+    // cargaba la pagina cruzando el 31 de diciembre — y eso rompe la
+    // hidratacion. Ahora es la misma constante en los dos bundles.
+    buildDate: __BUILD_DATE__,
+    year: Number(__BUILD_DATE__.slice(0, 4)),
   },
 };
 

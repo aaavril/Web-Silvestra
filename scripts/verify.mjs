@@ -159,6 +159,60 @@ async function main() {
     const h4 = await cdp.eval("document.querySelectorAll('h4').length");
     record(h4 === 0, 'sin saltos de nivel (h4)', `h4: ${h4}`);
 
+    // --- Señales para buscadores con IA ---
+    // El JSON-LD es lo unico del sitio que un modelo lee como dato duro en vez
+    // de prosa. Un nodo mal formado no se nota a la vista pero anula la señal
+    // entera, asi que se parsea de verdad en vez de solo chequear que exista.
+    const schemas = await cdp.eval(`(() => {
+      const out = { total: 0, invalidos: 0, tipos: [], founder: null, dateModified: null };
+      for (const el of document.querySelectorAll('script[type="application/ld+json"]')) {
+        out.total++;
+        let data;
+        try { data = JSON.parse(el.textContent); } catch { out.invalidos++; continue; }
+        out.tipos.push(data['@type']);
+        if (data.founder && data.founder.name) out.founder = data.founder.name;
+        if (data.dateModified) out.dateModified = data.dateModified;
+      }
+      return out;
+    })()`);
+    record(
+      schemas.total > 0 && schemas.invalidos === 0,
+      'JSON-LD parsea',
+      `${schemas.total} nodos: ${schemas.tipos.join(', ')}`
+    );
+
+    // Sin una persona con formacion declarada, un estudio de una sola persona
+    // no tiene ninguna señal de autoridad que Google o un modelo puedan usar.
+    record(Boolean(schemas.founder), 'schema con founder (E-E-A-T)', schemas.founder || 'ausente');
+
+    // Un dateModified de mas de 18 meses equivale a no tenerlo: los motores
+    // deprioritizan contenido viejo, y Perplexity es el mas estricto de todos.
+    const meses = schemas.dateModified
+      ? (Date.now() - Date.parse(schemas.dateModified)) / (1000 * 60 * 60 * 24 * 30.44)
+      : Infinity;
+    record(
+      meses >= 0 && meses < 18,
+      'dateModified vigente',
+      schemas.dateModified ? `${schemas.dateModified} (${meses.toFixed(1)} meses)` : 'ausente'
+    );
+
+    // La frase definicional es lo que un modelo levanta tal cual para responder
+    // "que es Silvestra". Tiene que empezar por el nombre completo: si arranca
+    // con un pronombre o una abreviatura deja de ser autocontenida.
+    const definicion = await cdp.eval(
+      "(document.querySelector('.filo-definition') || {}).textContent || ''"
+    );
+    record(
+      /^\s*Silvestra Paisajismo es /.test(definicion),
+      'frase definicional extraible',
+      definicion.trim().slice(0, 64) || 'ausente'
+    );
+
+    const fecha = await cdp.eval(
+      "(document.querySelector('.footer-foot time') || {}).dateTime || ''"
+    );
+    record(/^\d{4}-\d{2}-\d{2}$/.test(fecha), 'fecha visible en el footer', fecha || 'ausente');
+
     // --- Metricas ---
     // Se miden ANTES de cualquier interaccion: abrir un lightbox pinta una
     // imagen a pantalla completa que pasaria a ser el candidato a LCP y

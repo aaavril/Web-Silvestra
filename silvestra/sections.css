@@ -141,7 +141,19 @@
 }
 .filo .quote { font-size: clamp(1.35rem, 2vw, 2rem); max-width: 25ch; }
 .filo .quote .accent { color: var(--rosa-500); font-style: italic; }
-.filo .body-lg { max-width: 40ch; margin-top: .95rem; line-height: 1.42; font-size: .94rem; }
+/* Frase definicional: se lee como dato, no como copy. Compacta a proposito —
+   la seccion tiene altura acotada y los max-height de abajo la ajustan. */
+.filo .filo-definition {
+  max-width: 44ch;
+  margin: .9rem 0 0;
+  padding-left: .72rem;
+  border-left: 2px solid var(--verde-600);
+  font-size: .86rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.filo .body-lg { max-width: 40ch; margin-top: .7rem; line-height: 1.42; font-size: .94rem; }
 .pillars { display: grid; grid-template-columns: 1fr; gap: clamp(.75rem, 1.8vh, 1.2rem); margin-top: 0; }
 .pillar { }
 .pillar .num { font-family: var(--serif); font-size: .82rem; color: var(--rosa-500); letter-spacing: .1em; }
@@ -159,6 +171,7 @@
     display: block;
   }
   .filo .quote { font-size: clamp(1.45rem, 7vw, 2.2rem); }
+  .filo .filo-definition { max-width: 52ch; line-height: 1.6; }
   .filo .body-lg { max-width: 52ch; line-height: 1.65; }
   .pillars { grid-template-columns: 1fr; gap: 2.6rem; margin-top: 3rem; }
 }
@@ -167,7 +180,8 @@
   .filo { padding-block: 1.1rem; }
   .filo .wrap { gap: clamp(1.5rem, 5vw, 5rem); }
   .filo .quote { font-size: clamp(1.25rem, 2vw, 1.85rem); }
-  .filo .body-lg { font-size: .84rem; margin-top: .7rem; line-height: 1.36; }
+  .filo .filo-definition { font-size: .8rem; margin-top: .65rem; line-height: 1.34; }
+  .filo .body-lg { font-size: .84rem; margin-top: .55rem; line-height: 1.36; }
   .pillars { gap: .62rem; }
   .pillar .rule { margin-bottom: .38rem; }
   .pillar h3 { font-size: .95rem; }
@@ -182,6 +196,7 @@
   }
 
   .filo .quote { font-size: clamp(1.15rem, 1.75vw, 1.6rem); }
+  .filo .filo-definition { font-size: .74rem; margin-top: .55rem; line-height: 1.28; }
   .filo .body-lg { font-size: .78rem; line-height: 1.3; }
   .pillars { gap: .5rem; }
   .pillar h3 { font-size: .86rem; }

@@ -8,6 +8,17 @@ import { img, imgFull, heroPicture } from './images.mjs';
 
 const { assets, contact, nav, hero, filosofia, servicios, planos, portfolio, cta, footer } = content;
 
+const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+// Se parsea el string a mano en vez de usar new Date(): '2026-08-01' como ISO
+// es medianoche UTC, que en Uruguay (UTC-3) cae el 31 de julio y mostraria el
+// mes anterior.
+const mesDeBuild = (iso) => {
+  const [year, month] = iso.split('-');
+  return `${MESES[Number(month) - 1]} de ${year}`;
+};
+
 function Arrow() {
   return (
     <svg className="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -151,7 +162,8 @@ export function Filosofia() {
             {titleParts[0]}<span className="accent">{filosofia.accent}</span>{firstLine}
             {secondLine && <><br />{secondLine}</>}
           </h2>
-          <p className="body-lg reveal d2">{filosofia.text}</p>
+          <p className="filo-definition reveal d2">{filosofia.definition}</p>
+          <p className="body-lg reveal d3">{filosofia.text}</p>
         </div>
 
         <div className="pillars">
@@ -446,6 +458,9 @@ export function Footer() {
       <div className="footer-foot">
         <span>© {footer.year} Silvestra Paisajismo</span>
         <span>{footer.areas}</span>
+        <span>
+          Actualizado en <time dateTime={footer.buildDate}>{mesDeBuild(footer.buildDate)}</time>
+        </span>
       </div>
     </footer>
   );

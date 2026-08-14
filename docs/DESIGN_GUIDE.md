@@ -2,10 +2,17 @@
 
 Guia de diseno para mantener la web coherente, limpia y extensible.
 
+Para lo que falta hacer en visibilidad y citabilidad por buscadores con IA,
+ver [MEJORAS-FUTURAS.md](MEJORAS-FUTURAS.md).
+
 ## Como se construye el sitio
 
 El sitio dejo de servirse como archivos sueltos: `silvestra/` es codigo
 fuente y lo que se publica es `dist/`, generado por `npm run build`.
+
+En este documento los nombres de archivo sueltos (`content.jsx`, `styles.css`,
+`sections.css`) son relativos a `silvestra/`. Los comandos se corren desde la
+raiz del repo.
 
 ```
 npm install          una sola vez
@@ -116,8 +123,8 @@ Portfolio:
   se usa un texto generico. Completarlo es lo que hace que la fotografia
   aparezca en Google Imagenes; no cambia nada de lo que ve el visitante.
 - La version anterior con proyectos nombrados esta archivada en:
-  - `archive/PortfolioProjects.jsx`
-  - `archive/PortfolioProjects.css`
+  - `silvestra/archive/PortfolioProjects.jsx`
+  - `silvestra/archive/PortfolioProjects.css`
 
 CTA y Footer:
 - CTA final pequeno y directo.
@@ -174,6 +181,6 @@ Clases de crop disponibles:
 - `crop-f`
 
 Para volver al portfolio con proyectos:
-1. Copiar `archive/PortfolioProjects.jsx` al flujo de componentes.
-2. Copiar `archive/PortfolioProjects.css` dentro de `sections.css`.
+1. Copiar `silvestra/archive/PortfolioProjects.jsx` al flujo de componentes.
+2. Copiar `silvestra/archive/PortfolioProjects.css` dentro de `sections.css`.
 3. Restaurar datos de proyectos en `content.jsx`.

@@ -56,8 +56,20 @@ export function businessSchema({ site, business }) {
     if (business.address.postalCode) schema.address.postalCode = business.address.postalCode;
   }
   if (business.founder) {
-    schema.founder = { '@type': 'Person', name: business.founder.name };
+    schema.founder = {
+      '@type': 'Person',
+      '@id': `${abs(site)}#founder`,
+      name: business.founder.name,
+    };
     if (business.founder.jobTitle) schema.founder.jobTitle = business.founder.jobTitle;
+    // La credencial concreta es lo que sostiene el E-E-A-T: "diseñadora" sin
+    // formacion declarada no es una señal de autoridad, con ella si.
+    if (business.founder.alumniOf) {
+      schema.founder.alumniOf = {
+        '@type': 'EducationalOrganization',
+        name: business.founder.alumniOf,
+      };
+    }
   }
 
   return schema;
@@ -83,12 +95,42 @@ export function servicesSchema({ site, business, content }) {
   };
 }
 
-export function renderPage({ site, business, content, page, App, cssHref, jsHref }) {
+/**
+ * Nodo de pagina. Existe sobre todo por `dateModified`: es la señal de
+ * frescura que los buscadores con IA usan para decidir si una fuente sigue
+ * vigente, y no es una propiedad valida de ProfessionalService, asi que va
+ * en su propio nodo en vez de colgada del negocio.
+ */
+export function webPageSchema({ site, business, content, page, lastmod }) {
+  const canonical = abs(site, page.path);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: page.title,
+    description: page.description,
+    inLanguage: site.lang,
+    dateModified: lastmod,
+    about: { '@id': `${abs(site)}#business` },
+    publisher: { '@id': `${abs(site)}#business` },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: abs(site, site.ogImage),
+      caption: content.hero.imageAlt,
+    },
+  };
+}
+
+export function renderPage({ site, business, content, page, App, cssHref, jsHref, lastmod }) {
   const body = renderToString(App);
   const canonical = abs(site, page.path);
   const ogImage = abs(site, site.ogImage);
 
-  const schemas = [businessSchema({ site, business })];
+  const schemas = [
+    businessSchema({ site, business }),
+    webPageSchema({ site, business, content, page, lastmod }),
+  ];
   if (page.id === 'home') schemas.push(servicesSchema({ site, business, content }));
 
   const head = [

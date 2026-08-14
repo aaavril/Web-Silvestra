@@ -45,9 +45,9 @@ export const og = {
 // PENDIENTE DE CONFIRMAR CON EL NEGOCIO:
 //   - address:      hay direccion fisica o es solo a domicilio?
 //   - openingHours: horarios de atencion
-//   - foundingDate: año de fundacion
-//   - founder:      nombre y credenciales de quien diseña (alimenta E-E-A-T)
 //   - priceRange:   rango orientativo, ej. '$$'
+//   - legalName:    razon social, si existe
+// Ver docs/MEJORAS-FUTURAS.md para que desbloquea cada uno.
 export const business = {
   name: 'Silvestra Paisajismo',
   legalName: null,
@@ -60,9 +60,17 @@ export const business = {
   addressCountry: 'UY',
   address: null,
   openingHours: null,
-  foundingDate: null,
-  founder: null,
   priceRange: null,
+  foundingDate: '2025',
+  // Quien diseña los jardines, no quien hizo el sitio. Es la unica señal de
+  // autoridad que tiene un estudio de una persona: sin alguien con formacion
+  // en paisajismo detras, ni Google ni un modelo de IA tienen motivo para
+  // citar a Silvestra antes que a cualquier otro.
+  founder: {
+    name: 'Carolina Martinez',
+    jobTitle: 'Técnica en Paisajismo y Diseñadora Gráfica',
+    alumniOf: 'Universidad ORT Uruguay',
+  },
   sameAs: ['https://www.instagram.com/silvestra.paisajismo'],
 };
 

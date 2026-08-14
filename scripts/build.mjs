@@ -52,7 +52,10 @@ async function buildCss() {
 }
 
 // ---------- Bundle del cliente ----------
-async function buildClient() {
+// __BUILD_DATE__ va por `define` y no por props del componente: el cliente
+// hidrata con <App /> sin props (ver entry.client.jsx), asi que la fecha tiene
+// que ser la MISMA constante en los dos bundles o la hidratacion no coincide.
+async function buildClient(lastmod) {
   const result = await esbuild.build({
     entryPoints: [join(SRC, 'entry.client.jsx')],
     bundle: true,
@@ -61,7 +64,10 @@ async function buildClient() {
     target: ['es2019'],
     jsx: 'automatic',
     loader: { '.jsx': 'jsx' },
-    define: { 'process.env.NODE_ENV': '"production"' },
+    define: {
+      'process.env.NODE_ENV': '"production"',
+      __BUILD_DATE__: JSON.stringify(lastmod),
+    },
     write: false,
   });
 
@@ -73,7 +79,7 @@ async function buildClient() {
 
 // ---------- Bundle del servidor ----------
 // react y react-dom quedan external: los resuelve Node desde node_modules.
-async function buildServer() {
+async function buildServer(lastmod) {
   const out = join(TMP, 'server.mjs');
   await esbuild.build({
     entryPoints: [join(SRC, 'entry.server.jsx')],
@@ -84,6 +90,7 @@ async function buildServer() {
     jsx: 'automatic',
     loader: { '.jsx': 'jsx' },
     external: ['react', 'react-dom', 'react/jsx-runtime'],
+    define: { __BUILD_DATE__: JSON.stringify(lastmod) },
     outfile: out,
   });
   return out;
@@ -203,6 +210,11 @@ async function main() {
   const started = Date.now();
   log('\nSilvestra — build\n');
 
+  // Fecha del build. La usan el sitemap, el dateModified del JSON-LD y el
+  // "Actualizado en ..." del footer, asi que se calcula una sola vez y antes
+  // de los bundles: los tres tienen que decir lo mismo.
+  const lastmod = new Date().toISOString().slice(0, 10);
+
   if (skipImages && !(await exists(join(SRC, 'image-manifest.json')))) {
     throw new Error('--skip-images requiere un image-manifest.json ya generado');
   }
@@ -223,11 +235,11 @@ async function main() {
   log(`2/6 css: ${css.href} (${(css.bytes / 1024).toFixed(1)} KB)`);
 
   // 3. Cliente
-  const js = await buildClient();
+  const js = await buildClient(lastmod);
   log(`3/6 js: ${js.href} (${(js.bytes / 1024).toFixed(1)} KB)`);
 
   // 4. Servidor + prerender
-  const serverPath = await buildServer();
+  const serverPath = await buildServer(lastmod);
   const importAbs = (path) => import(pathToFileURL(join(process.cwd(), path)).href);
   const { App, content } = await importAbs(serverPath);
   const { site, business, pages, og } = await importAbs(join(SRC, 'site.mjs'));
@@ -242,6 +254,7 @@ async function main() {
       App: React.createElement(App),
       cssHref: css.href,
       jsHref: js.href,
+      lastmod,
     });
     const file = page.path ? join(OUT, page.path, 'index.html') : join(OUT, 'index.html');
     await write(file, html);
@@ -249,7 +262,6 @@ async function main() {
   }
 
   // 5. robots + sitemap
-  const lastmod = new Date().toISOString().slice(0, 10);
   await write(join(OUT, 'robots.txt'), renderRobots({ site }));
   await write(join(OUT, 'sitemap.xml'), renderSitemap({ site, pages, lastmod }));
   log('5/6 robots.txt + sitemap.xml');
