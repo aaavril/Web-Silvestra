@@ -117,8 +117,11 @@ export function renderPage({ site, business, content, page, App, cssHref, jsHref
     `<meta name="twitter:description" content="${escape(page.description)}" />`,
     `<meta name="twitter:image" content="${ogImage}" />`,
 
-    '<link rel="icon" href="favicon.ico" sizes="32x32" />',
-    '<link rel="icon" href="icon.svg" type="image/svg+xml" />',
+    // Google ignora favicons menores a 48x48 y muestra un globo genérico
+    // en su lugar, asi que se declaran multiplos de 48.
+    '<link rel="icon" href="favicon.ico" sizes="48x48" />',
+    '<link rel="icon" href="icon-96.png" type="image/png" sizes="96x96" />',
+    '<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192" />',
     '<link rel="apple-touch-icon" href="apple-touch-icon.png" />',
 
     // Fuentes above-the-fold: Inter 300 para el cuerpo y Cormorant 300

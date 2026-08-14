@@ -90,45 +90,103 @@ async function buildServer() {
 }
 
 // ---------- Iconos ----------
-// El favicon sale del logo existente. /favicon.ico daba 404, y el icono
-// aparece en la pestaña del navegador y en algunos layouts de resultados.
+// El logo es emblema (la mata con las bayas y los dos arcos) mas la palabra
+// "SiLVesTra PAISAJISMO". A tamaño de favicon la palabra es ilegible, asi que
+// se usa solo el emblema: se toma la franja superior del logo y se deja que
+// sharp recorte al contenido real, para no depender de coordenadas fijas si
+// algun dia cambia el archivo.
+const EMBLEM_BAND = 0.64;
+
+// Google no usa favicons menores a 48x48: los ignora y muestra el globo
+// genérico al lado del resultado. Se emiten multiplos de 48.
+const ICON_SIZES = [48, 96, 192];
+
+// Fondo crema en vez de transparente: el emblema es verde oscuro y sobre
+// una pestaña en tema oscuro quedaria casi invisible.
+const ICON_BG = { r: 250, g: 248, b: 242, alpha: 1 };
+
 async function buildIcons() {
   const logo = join(SRC, 'assets', 'logo-color-trim.png');
+  const meta = await sharp(logo).metadata();
 
-  // ICO no lo genera sharp: se usa un PNG de 32x32 servido como .ico,
-  // que todos los navegadores actuales aceptan.
-  const png32 = await sharp(logo)
-    .resize(32, 32, { fit: 'contain', background: { r: 250, g: 248, b: 242, alpha: 1 } })
+  const band = await sharp(logo)
+    .extract({ left: 0, top: 0, width: meta.width, height: Math.round(meta.height * EMBLEM_BAND) })
     .png()
     .toBuffer();
-  await write(join(OUT, 'favicon.ico'), png32);
+  // trim() en un pipeline aparte: encadenarlo al extract falla.
+  const emblem = await sharp(band).trim().png().toBuffer();
 
-  const touch = await sharp(logo)
-    .resize(180, 180, { fit: 'contain', background: { r: 250, g: 248, b: 242, alpha: 1 } })
-    .png()
-    .toBuffer();
-  await write(join(OUT, 'apple-touch-icon.png'), touch);
+  // Emblema centrado sobre un lienzo crema del tamaño pedido.
+  const icon = async (size, padding = 0) => {
+    const inner = await sharp(emblem)
+      .resize(size - padding * 2, size - padding * 2, {
+        fit: 'contain',
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .png()
+      .toBuffer();
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0c3623"/><text x="16" y="23" font-family="Georgia,serif" font-size="20" font-style="italic" fill="#faf8f2" text-anchor="middle">S</text></svg>`;
-  await write(join(OUT, 'icon.svg'), svg);
+    return sharp({ create: { width: size, height: size, channels: 4, background: ICON_BG } })
+      .composite([{ input: inner, gravity: 'center' }])
+      .png()
+      .toBuffer();
+  };
+
+  for (const size of ICON_SIZES) {
+    const png = await icon(size);
+    await write(join(OUT, `icon-${size}.png`), png);
+    // favicon.ico es el mismo PNG de 48: los navegadores actuales lo aceptan
+    // con esa extension, y es el tamaño minimo que Google usa.
+    if (size === 48) await write(join(OUT, 'favicon.ico'), png);
+  }
+
+  // apple-touch-icon lleva margen porque iOS le aplica esquinas redondeadas
+  // y recorta un poco el borde.
+  await write(join(OUT, 'apple-touch-icon.png'), await icon(180, 18));
 }
 
 // ---------- Imagen de Open Graph ----------
 // 1200x630 recortado del hero con el logo encima. Es lo que se ve al
 // compartir el link por WhatsApp o Instagram.
-async function buildOgImage(site) {
-  const hero = join(SRC, 'assets', 'hero.jpg');
-  if (!(await exists(hero))) return;
+async function buildOgImage(site, og) {
+  // Una imagen propia ya diseñada gana sobre la generada.
+  const custom = join(SRC, 'assets', 'og-custom.jpg');
+  if (await exists(custom)) {
+    const meta = await sharp(custom).metadata();
+    if (meta.width !== 1200 || meta.height !== 630) {
+      log(`    aviso: og-custom.jpg mide ${meta.width}x${meta.height}, se espera 1200x630`);
+    }
+    await write(join(OUT, site.ogImage), await readFile(custom));
+    return 'og-custom.jpg';
+  }
 
-  const base = await sharp(hero)
-    .resize(1200, 630, { fit: 'cover', position: 'center' })
-    // Mismo overlay verde que el hero, para que el logo crema se lea.
-    .composite([{ input: { create: { width: 1200, height: 630, channels: 4, background: { r: 12, g: 54, b: 35, alpha: 0.55 } } } }])
+  const source = join(SRC, og.source);
+  if (!(await exists(source))) {
+    log(`    aviso: no encontre ${og.source}, se omite la imagen de preview`);
+    return null;
+  }
+
+  const base = await sharp(source)
+    .resize(1200, 630, { fit: 'cover', position: og.crop })
+    // Velo verde, el mismo criterio que el hero: sin el, el logo crema
+    // no se lee sobre una foto clara.
+    .composite([
+      {
+        input: {
+          create: {
+            width: 1200,
+            height: 630,
+            channels: 4,
+            background: { r: 12, g: 54, b: 35, alpha: og.overlay },
+          },
+        },
+      },
+    ])
     .jpeg({ quality: 82 })
     .toBuffer();
 
   const logo = await sharp(join(SRC, 'assets', 'logo-cream-trim.png'))
-    .resize({ width: 460, fit: 'inside' })
+    .resize({ width: og.logoWidth, fit: 'inside' })
     .png()
     .toBuffer();
 
@@ -138,6 +196,7 @@ async function buildOgImage(site) {
     .toBuffer();
 
   await write(join(OUT, site.ogImage), composed);
+  return og.source;
 }
 
 async function main() {
@@ -171,7 +230,7 @@ async function main() {
   const serverPath = await buildServer();
   const importAbs = (path) => import(pathToFileURL(join(process.cwd(), path)).href);
   const { App, content } = await importAbs(serverPath);
-  const { site, business, pages } = await importAbs(join(SRC, 'site.mjs'));
+  const { site, business, pages, og } = await importAbs(join(SRC, 'site.mjs'));
 
   log('4/6 prerender');
   for (const page of pages) {
@@ -197,9 +256,9 @@ async function main() {
 
   // 6. Iconos, OG y CNAME
   await buildIcons();
-  await buildOgImage(site);
+  const ogFrom = await buildOgImage(site, og);
   await write(join(OUT, 'CNAME'), await readFile(join(SRC, 'CNAME')));
-  log('6/6 iconos + og-image + CNAME');
+  log(`6/6 iconos + CNAME + og-image${ogFrom ? ` desde ${ogFrom}` : ''}`);
 
   await rm(TMP, { recursive: true, force: true });
   log(`\nlisto en ${((Date.now() - started) / 1000).toFixed(1)}s -> ${OUT}/\n`);
